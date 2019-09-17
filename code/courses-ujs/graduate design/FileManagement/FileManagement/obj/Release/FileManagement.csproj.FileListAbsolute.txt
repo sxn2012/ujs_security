@@ -1,0 +1,15 @@
+G:\实验\毕业设计\project\FileManagement\FileManagement\bin\Release\FileManagement.exe.config
+G:\实验\毕业设计\project\FileManagement\FileManagement\bin\Release\FileManagement.exe
+G:\实验\毕业设计\project\FileManagement\FileManagement\bin\Release\FileManagement.pdb
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.AboutMeForm.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.EditEmail.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.LoginForm.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.MainForm.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.ModifyPass.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.Properties.Resources.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.ResetPass.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.SubjectChoice.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.VerifyID.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.csproj.GenerateResource.Cache
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.exe
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Release\FileManagement.pdb

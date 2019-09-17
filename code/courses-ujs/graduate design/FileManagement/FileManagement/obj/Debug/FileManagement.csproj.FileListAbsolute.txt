@@ -1,0 +1,16 @@
+G:\实验\毕业设计\project\FileManagement\FileManagement\bin\Debug\FileManagement.exe.config
+G:\实验\毕业设计\project\FileManagement\FileManagement\bin\Debug\FileManagement.exe
+G:\实验\毕业设计\project\FileManagement\FileManagement\bin\Debug\FileManagement.pdb
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.Properties.Resources.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.csproj.GenerateResource.Cache
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.exe
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.pdb
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.LoginForm.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.MainForm.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.SubjectChoice.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.AboutMeForm.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.ModifyPass.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.EditEmail.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.ResetPass.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.VerifyID.resources
+G:\实验\毕业设计\project\FileManagement\FileManagement\obj\Debug\FileManagement.csprojResolveAssemblyReference.cache

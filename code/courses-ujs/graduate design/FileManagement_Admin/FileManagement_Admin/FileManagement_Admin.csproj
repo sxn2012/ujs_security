@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0F6E200A-77AF-4363-9A28-BD4AD987C9B8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FileManagement_Admin</RootNamespace>
+    <AssemblyName>FileManagement_Admin</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Admin.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutMeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutMeForm.Designer.cs">
+      <DependentUpon>AboutMeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BackupandRecover.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BackupandRecover.Designer.cs">
+      <DependentUpon>BackupandRecover.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateAccess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateAccess.Designer.cs">
+      <DependentUpon>CreateAccess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateDept.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateDept.Designer.cs">
+      <DependentUpon>CreateDept.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateSub.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateSub.Designer.cs">
+      <DependentUpon>CreateSub.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateUser.Designer.cs">
+      <DependentUpon>CreateUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CryptoClass.cs" />
+    <Compile Include="DocView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocView.Designer.cs">
+      <DependentUpon>DocView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyAccess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifyAccess.Designer.cs">
+      <DependentUpon>ModifyAccess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyAdminPass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifyAdminPass.Designer.cs">
+      <DependentUpon>ModifyAdminPass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyDLoc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifyDLoc.Designer.cs">
+      <DependentUpon>ModifyDLoc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyDName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifyDName.Designer.cs">
+      <DependentUpon>ModifyDName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModifySContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifySContent.Designer.cs">
+      <DependentUpon>ModifySContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModifySName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifySName.Designer.cs">
+      <DependentUpon>ModifySName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyUDep.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifyUDep.Designer.cs">
+      <DependentUpon>ModifyUDep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyUName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifyUName.Designer.cs">
+      <DependentUpon>ModifyUName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ModifyUPass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifyUPass.Designer.cs">
+      <DependentUpon>ModifyUPass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Second_Verify.cs" />
+    <Compile Include="Security_Test.cs" />
+    <Compile Include="Socket_Receive.cs" />
+    <Compile Include="SystemLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SystemLog.Designer.cs">
+      <DependentUpon>SystemLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransferAccess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransferAccess.Designer.cs">
+      <DependentUpon>TransferAccess.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AboutMeForm.resx">
+      <DependentUpon>AboutMeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BackupandRecover.resx">
+      <DependentUpon>BackupandRecover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateAccess.resx">
+      <DependentUpon>CreateAccess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateDept.resx">
+      <DependentUpon>CreateDept.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateSub.resx">
+      <DependentUpon>CreateSub.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateUser.resx">
+      <DependentUpon>CreateUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocView.resx">
+      <DependentUpon>DocView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModifyAccess.resx">
+      <DependentUpon>ModifyAccess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModifyAdminPass.resx">
+      <DependentUpon>ModifyAdminPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModifyDLoc.resx">
+      <DependentUpon>ModifyDLoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModifyDName.resx">
+      <DependentUpon>ModifyDName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModifySContent.resx">
+      <DependentUpon>ModifySContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModifySName.resx">
+      <DependentUpon>ModifySName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModifyUDep.resx">
+      <DependentUpon>ModifyUDep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModifyUName.resx">
+      <DependentUpon>ModifyUName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ModifyUPass.resx">
+      <DependentUpon>ModifyUPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemLog.resx">
+      <DependentUpon>SystemLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferAccess.resx">
+      <DependentUpon>TransferAccess.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Admin.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
