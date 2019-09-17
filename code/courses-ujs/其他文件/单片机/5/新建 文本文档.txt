@@ -1,0 +1,257 @@
+#include "c8051f020.h"                
+#include <intrins.h>
+
+#define PRT0CF P0MDOUT
+#define PRT1CF P1MDOUT
+#define PRT2CF P2MDOUT
+sbit	HD7279_DAT=P1^7;
+sbit	HD7279_CLK=P1^6;
+#define CPTIME 4
+#define NOSELECT7279  	P5 |= 0x80		//SPICS4(P57)=1
+#define SELECT7279  	P5 &= ~(0x80)  	//SPICS4(P57)=0;
+#define Set7279DAT  	HD7279_DAT=1
+#define Clr7279DAT  	HD7279_DAT=0
+#define Set7279CLK  	HD7279_CLK=1
+#define Clr7279CLK  	HD7279_CLK=0
+void SYSCLK_Init (void)
+{
+   int i;                              // delay counter
+   OSCXCN = 0x67;                      // start external oscillator with
+                                       // 18.432MHz crystal
+   for (i=0; i < 256; i++) ;           // Wait for osc. to start up
+   while (!(OSCXCN & 0x80)) ;          // Wait for crystal osc. to settle
+   OSCICN = 0x88;                      // select external oscillator as SYSCLK
+                                       // source and enable missing clock
+                                       // detector
+//	OSCICN = 0x07;   //interal 16MHZ
+}
+
+void PORT_Init (void)
+{
+   XBR2    = 0x40;                     // Enable crossbar and weak pull-ups
+   P1MDOUT |= 0x3C;  					//P1.2-P1.5推挽输出
+   P1 &= 0xc3;							//P1.2-P1.5=0
+}
+
+unsigned char Count1ms;
+void Timer0_Init (void)
+{
+   	CKCON|=0x8;
+   	TMOD|=0x1;    	//16Bit
+	Count1ms=10;
+   	TR0 = 0;                         	// STOP Timer0
+   	TH0 = (-SYSCLK/1000) >> 8;    		// set Timer0 to overflow in 1ms
+   	TL0 = -SYSCLK/1000;
+   	TR0 = 1;   	// START Timer0
+   	IE|= 0x2; 
+}
+
+void Timer0_ISR (void) interrupt 1  //1ms
+{
+	TH0 = (-SYSCLK/1000) >> 8;  
+   	TL0 = -SYSCLK/1000;
+	if (Count1ms) Count1ms--;
+}
+
+void Delay1ms(unsigned char T)
+{
+	Count1ms=T;
+	while (Count1ms);
+}
+
+//void TestStepM(void);
+/*void TestStepM(void)
+{
+char x,i,j;
+char FTab[]={0xc7,0xcb,0xd3,0xe3};
+char CTab[]={0xc7,0xe3,0xd3,0xcb};
+for (x=0;x<5;x++)
+{
+
+	P27=1;
+	for (i=0;i<100;i++)
+	{
+		for (j=0;j<4;j++)
+		{
+			P1 = FTab[j];
+			Delay1ms((20-i/10)*CPTIME);
+		}
+	}
+	for (i=0;i<100;i++)
+	{
+		for (j=0;j<4;j++)
+		{
+			P1 = FTab[j];
+			Delay1ms(10*CPTIME);
+		}
+	}
+	for (i=0;i<100;i++)
+	{
+		for (j=0;j<4;j++)
+		{
+			P1 = FTab[j];
+			Delay1ms((10+i/10)*CPTIME);
+		}
+	}
+	P27=0;
+	for (i=0;i<100;i++)
+	{
+		for (j=0;j<4;j++)
+		{
+			P1 = CTab[j];
+			Delay1ms((20-i/10)*CPTIME);
+		}
+	}
+	for (i=0;i<100;i++)
+	{
+		for (j=0;j<4;j++)
+		{
+			P1 = CTab[j];
+			Delay1ms(10*CPTIME);
+		}
+	}
+	for (i=0;i<100;i++)
+	{
+		for (j=0;j<4;j++)
+		{
+			P1 = CTab[j];
+			Delay1ms((10+i/10)*CPTIME);
+		}
+	}
+}  
+	P27=1;
+}*/
+
+void TeststepM1(void)
+{
+		char x,i,j;
+		char FTab[]={0xc7,0xcb,0xd3,0xe3};
+		char CTab[]={0xc7,0xe3,0xd3,0xcb};
+		P27=1;
+		for (;;)
+		{
+			for (j=0;j<4;j++)
+			{
+				P1 = FTab[j];
+				Delay1ms((10)*CPTIME);
+			}
+		}
+}
+
+void TeststepM2(void)
+{
+	char x,i,j;
+	char FTab[]={0xc7,0xcb,0xd3,0xe3};
+	char CTab[]={0xc7,0xe3,0xd3,0xcb};
+		P27=1;
+		for (;;)
+		{
+			for (j=0;j<4;j++)
+			{
+				P1 = CTab[j];
+				Delay1ms((10)*CPTIME);
+			}
+		}
+}
+
+
+void WaitKeyOff(void)
+{
+	while  (!(CPT1CN&0x40));
+}
+
+void Send7279Byte(unsigned char ch)
+{	
+	char i;
+	SELECT7279;     	//置CS低电平 
+	Delay1ms(1);		//延时50μ
+	
+	for (i=0;i<8;i++)
+	{	
+		if (ch&0x80)	//输出7位到HD7279A的DATA端 
+		{
+			Set7279DAT;
+		}
+		else
+		{
+			Clr7279DAT;
+		}
+		Set7279CLK;		//置CLK高电平 
+		ch=ch<<1;		//待发数据左移 
+		Delay1ms(1);	//延时8μ
+		Clr7279CLK;		//置CLK低电平 
+		Delay1ms(1);	//延时50μ
+	}
+	Clr7279DAT;			//发送完毕，DATA端置低，返回 
+}
+unsigned char Receive7279Byte(void)
+{
+	unsigned char i,ch;
+	ch=0;		
+	Set7279DAT;			//DATA端置为高电平，输入状态
+	Delay1ms(1);		//延时50μ
+	for (i=0;i<8;i++)
+	{
+		Set7279CLK;		//置CLK高电平
+		Delay1ms(1);	//延时8μ
+		ch=ch<<1;		//接收数据左移1位
+		if (HD7279_DAT)
+			ch+=1;		//接收1位数据
+		Clr7279CLK;		//置CLK低电平
+		Delay1ms(1);	//延时8μ
+	}
+	Clr7279DAT;			//接收完毕，DATA端重新置成低电平(输出状态)
+	return ch;
+}
+
+char GetKeyValue(void)
+{
+	char KeyValue;
+	if (P17==1/*CPT1CN&0x40*/) return -1;	//无键按下 
+	Send7279Byte(0x15);	//发读键盘指令 
+	KeyValue=Receive7279Byte();
+	NOSELECT7279;     	//置CS高电平 
+	return KeyValue; 
+}
+
+
+void TestStepM(void)
+{
+	
+	char KeyValue;
+	Delay1ms(25);		//等待25ms复位时间 
+         while(1)
+          {
+		  	KeyValue=GetKeyValue();
+		 //	if (KeyValue!=-1) 
+			//{
+		    
+				if (KeyValue==0)
+				{
+					TeststepM1();
+				}
+				if (KeyValue==1)
+				{
+					TeststepM2();
+				}
+			
+		//	}
+		
+		}
+			
+}
+
+
+
+
+void main (void) 
+{
+
+	WDTCN = 0xde;
+	WDTCN = 0xad;           //关看门狗
+	SYSCLK_Init ();         //初始化时钟
+	Timer0_Init();			//初始化定时器
+	PORT_Init ();           //初始化IO口
+	EA=1;					//开中断
+	TestStepM();
+}

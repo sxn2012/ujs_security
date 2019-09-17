@@ -1,0 +1,114 @@
+C51 COMPILER V6.23a  BLINKY                                                                05/09/2002 23:09:53 PAGE 1   
+
+
+C51 COMPILER V6.23a, COMPILATION OF MODULE BLINKY
+OBJECT MODULE PLACED IN Blinky.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\c51.exe Blinky.c DB OE BR
+
+stmt level    source
+
+   1          #include <c8051f020.h>                    // SFR declarations
+   2          
+   3          #define SYSCLK 2000000                    // approximate SYSCLK frequency in Hz
+*** WARNING C317 IN LINE 3 OF Blinky.c: redefinition of macro 'SYSCLK'
+   4          
+   5          void PORT_Init (void);
+   6          void Timer0_Init (int counts);
+   7          void Timer0_ISR (void);
+   8          unsigned int xdata  p2led[]={0x7f,0xbf,0xdf,0xef,0xf7,0xfb,0xfd,0xfe};
+   9          
+  10          void main (void) {
+  11   1      
+  12   1       
+  13   1         // disable watchdog timer
+  14   1         WDTCN = 0xde;
+  15   1         WDTCN = 0xad;
+  16   1              
+  17   1         PORT_Init ();
+  18   1         Timer0_Init (SYSCLK / 12 / 10);        // Init Timer3 to generate interrupts
+  19   1                                                // at a 10Hz rate.
+  20   1         //LED1=1;
+  21   1        
+  22   1         EA = 1;      //允许所有中断 IE中断寄存器的第一位
+  23   1      
+  24   1         while (1) {                            // spin forever
+  25   2         }
+  26   1      }
+  27          
+  28          
+  29          void PORT_Init (void)
+  30          {
+  31   1         XBR2    = 0x40;                     // Enable crossbar and weak pull-ups
+  32   1         //P1MDOUT |= 0x41;                    // enable P1.6 (LED) as push-pull output
+  33   1      }
+  34          
+  35          void Timer0_Init (int counts)
+  36          {
+  37   1         TCON = 0x00;                      // Stop Timer0; Clear TF0;
+  38   1                //清定时器
+  39   1                                          // use SYSCLK/12 as timebase
+  40   1         CKCON = 0x00; //时钟控制寄存器
+  41   1         TH0 = -counts/0xff;   //定时器 初值
+  42   1         TL0 = -counts % 0xff;
+  43   1      
+  44   1       //  IE   |= 0x01;                     // enable Timer0 interrupts
+  45   1         ET0 = 1;   //开定时器0中断允许 中断寄存器
+  46   1         TMOD |= 0x01; // 方式寄存器 T0工作于方式1
+  47   1         TCON |= 0x10; // 控制寄存器 T0允许
+  48   1      
+  49   1      
+  50   1      }
+  51          
+  52          void Timer0_ISR (void) interrupt 1
+  53          {
+  54   1         int counts;
+C51 COMPILER V6.23a  BLINKY                                                                05/09/2002 23:09:53 PAGE 2   
+
+  55   1         static int count;
+  56   1         static int i=9,j=0;
+  57   1         static int led=0xff;
+  58   1         
+  59   1         //TCON &= ~(0x80); // clear TF0
+  60   1         count++;
+  61   1      
+  62   1      //   TH0 = 0xBD;
+  63   1      //   TL0 = 0xE5;
+  64   1         counts = SYSCLK / 12 / 10;
+  65   1         TH0 = -counts/0xff;   //定时器 初值
+  66   1         TL0 = -counts % 0xff;
+  67   1      
+  68   1         if(count==5)
+  69   1         {
+  70   2          count=0;
+  71   2          P3=led;
+  72   2              if(j==7) j++;
+  73   2              if(j>=0&&j<7)
+  74   2              P2=p2led[j];
+  75   2              else if(j>=8&&j<=15)
+  76   2              P2=p2led[15-j];
+  77   2              led=led<<1;
+  78   2          i--;
+  79   2              j++;
+  80   2              if(j==15)
+  81   2              j=2;
+  82   2          if(i==0)
+  83   2           {i=9;
+  84   3            led=0xff;
+  85   3           } 
+  86   2         }
+  87   1      }
+  88              //LED = ~LED;// change state of LED
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    344    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     16    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

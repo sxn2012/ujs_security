@@ -1,0 +1,122 @@
+C51 COMPILER V6.23a  ADC                                                                   10/23/2009 00:56:52 PAGE 1   
+
+
+C51 COMPILER V6.23a, COMPILATION OF MODULE ADC
+OBJECT MODULE PLACED IN ADC.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\c51.exe ADC.c DB OE BR
+
+stmt level    source
+
+   1          #include "c8051F020.h"
+   2          #include <intrins.h>
+   3          
+   4          /*
+   5                  压力应变片ADC试验
+   6          
+   7                  运行此程序,压力值将在数码管上显示.用手触摸应变片
+   8                  观察压力变化.
+   9          
+  10          */
+  11          
+  12          #define MUX_TEMP                        0x08
+  13          #define MUX_VOLT                        0x01
+  14          #define MUX_PRESS                       0x02
+  15          
+  16          unsigned int idata  Temp, Press, Volt;
+  17          unsigned char  idata mux_select;
+  18          
+  19          sfr16 ADC0     = 0xbe;                 // ADC0 data
+  20          
+  21          void init_adc(void)
+  22          {
+  23   1              ADC0CN = 0x81;                      // ADC0 enabled; normal tracking
+  24   1                                              // mode; ADC0 conversions are initiated 
+  25   1                                              // on write to AD0BUSY; ADC0 data is
+  26   1                                              // left-justified
+  27   1              REF0CN = 0x07;                      // enable temp sensor, on-chip VREF,
+  28   1                                              // and VREF output buffer
+  29   1              mux_select = MUX_TEMP;                          // CPU on-chip temp sensor
+  30   1              AMX0SL = MUX_TEMP;      
+  31   1      
+  32   1              ADC0CF = (SYSCLK/2500000) << 3;     // ADC conversion clock = 2.5MHz
+  33   1              //ADC0CF |= 0x01;                     // PGA gain = 2
+  34   1              EIE2 &= ~0x02;                      // disable ADC0 EOC interrupt
+  35   1              EIE1 &= ~0x04;                      // disable ADC0 window compare interrupt
+  36   1      }
+  37          
+  38          //  On-chip temperature
+  39          //  AN1. 电位器
+  40          //  AN2. 应变片
+  41          
+  42          void read_analog_inputs(void)
+  43          {
+  44   1              long temp_long;
+  45   1          AD0INT = 0;                      // clear conversion complete indicator
+  46   1          AD0BUSY = 1;                     // initiate conversion
+  47   1          while (AD0INT == 0);             // wait for conversion complete
+  48   1      
+  49   1              switch (mux_select)
+  50   1              {
+  51   2                      case MUX_TEMP:
+  52   2                      temp_long = ADC0 - 42380/2;
+  53   2                          temp_long = (temp_long * 200L) / 156;
+  54   2                              Temp=temp_long;
+  55   2                              AMX0SL = MUX_VOLT;              // Select AIN1 for next read
+C51 COMPILER V6.23a  ADC                                                                   10/23/2009 00:56:52 PAGE 2   
+
+  56   2                              mux_select = MUX_VOLT;
+  57   2                      break;
+  58   2      
+  59   2                      case MUX_VOLT:
+  60   2                              temp_long = ADC0;
+  61   2                              Volt = 24*temp_long/655;
+  62   2                              AMX0SL = MUX_PRESS;             // Select on-chip temp sensor
+  63   2                              mux_select = MUX_PRESS;
+  64   2                      break;
+  65   2              
+  66   2                      case MUX_PRESS:
+  67   2                              temp_long = ADC0;
+  68   2                              temp_long = 24*temp_long/655;
+  69   2                              Press = temp_long;
+  70   2                      AMX0SL = MUX_TEMP;       
+  71   2                      mux_select = MUX_TEMP;
+  72   2                      break;
+  73   2                      default:
+  74   2                      AMX0SL = MUX_TEMP;
+  75   2                      mux_select = MUX_TEMP;
+  76   2                      break;
+  77   2              }
+  78   1      }
+  79           
+  80          unsigned int GetADCValue(char No)
+  81          {
+  82   1              read_analog_inputs();
+  83   1              read_analog_inputs();
+  84   1              read_analog_inputs();
+  85   1              switch (No)
+  86   1              {
+  87   2                      case 1:
+  88   2                              return Temp;
+  89   2                      case 2:
+  90   2                              return Volt;
+  91   2                      case 3:
+  92   2                              if (Press<10) Press=0;
+  93   2                              return Press;
+  94   2              }
+  95   1      }
+  96          
+  97          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    295    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       5
+   IDATA SIZE       =      7    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

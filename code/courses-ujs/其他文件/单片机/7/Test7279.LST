@@ -1,0 +1,236 @@
+C51 COMPILER V6.23a  TEST7279                                                              10/23/2009 00:39:17 PAGE 1   
+
+
+C51 COMPILER V6.23a, COMPILATION OF MODULE TEST7279
+OBJECT MODULE PLACED IN Test7279.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\c51.exe Test7279.c DB OE BR
+
+stmt level    source
+
+   1          #include "c8051f020.h" 
+   2          #include <intrins.h>
+   3          
+   4          sbit    HD7279_DAT=P1^7;
+   5          sbit    HD7279_CLK=P1^6;
+   6          
+   7          #define NOSELECT7279    P5 |= 0x80              //SPICS4(P57)=1
+   8          #define SELECT7279      P5 &= ~(0x80)   //SPICS4(P57)=0;
+   9          #define Set7279DAT      HD7279_DAT=1
+  10          #define Clr7279DAT      HD7279_DAT=0
+  11          #define Set7279CLK      HD7279_CLK=1
+  12          #define Clr7279CLK      HD7279_CLK=0
+  13          
+  14          //      HD7279测试/演示程序             
+  15           
+  16          //      I/O口初始化 
+  17          
+  18          void Delay1ms(unsigned char T);
+  19          void Delay1s(unsigned char T);
+  20          void Delay1us(unsigned char T);
+  21          
+  22          void Send7279Byte(unsigned char ch)
+  23          {       
+  24   1              char i;
+  25   1              SELECT7279;             //置CS低电平 
+  26   1              Delay1us(50);           //延时50μ
+  27   1              
+  28   1              for (i=0;i<8;i++)
+  29   1              {       
+  30   2                      if (ch&0x80)    //输出7位到HD7279A的DATA端 
+  31   2                      {
+  32   3                              Set7279DAT;
+  33   3                      }
+  34   2                      else
+  35   2                      {
+  36   3                              Clr7279DAT;
+  37   3                      }
+  38   2                      Set7279CLK;             //置CLK高电平 
+  39   2                      ch=ch<<1;               //待发数据左移 
+  40   2                      Delay1us(8);    //延时8μ
+  41   2                      Clr7279CLK;             //置CLK低电平 
+  42   2                      Delay1us(8);    //延时50μ
+  43   2              }
+  44   1              Clr7279DAT;                     //发送完毕，DATA端置低，返回 
+  45   1      }
+  46          unsigned char Receive7279Byte(void)
+  47          {
+  48   1              unsigned char i,ch;
+  49   1              ch=0;           
+  50   1              Set7279DAT;                     //DATA端置为高电平，输入状态
+  51   1              Delay1us(50);           //延时50μ
+  52   1              for (i=0;i<8;i++)
+  53   1              {
+  54   2                      Set7279CLK;             //置CLK高电平
+  55   2                      Delay1us(8);    //延时8μ
+C51 COMPILER V6.23a  TEST7279                                                              10/23/2009 00:39:17 PAGE 2   
+
+  56   2                      ch=ch<<1;               //接收数据左移1位
+  57   2                      if (HD7279_DAT)
+  58   2                              ch+=1;          //接收1位数据
+  59   2                      Clr7279CLK;             //置CLK低电平
+  60   2                      Delay1us(8);    //延时8μ
+  61   2              }
+  62   1              Clr7279DAT;                     //接收完毕，DATA端重新置成低电平(输出状态)
+  63   1              return ch;
+  64   1      }
+  65          
+  66          void FlashLED(unsigned char No)
+  67          {
+  68   1              char i;
+  69   1              Send7279Byte(0x88);     //发闪烁指令 
+  70   1              i=0x1;
+  71   1              while (No)
+  72   1              {
+  73   2                      i=i<<1;
+  74   2                      No--;
+  75   2              }
+  76   1              Send7279Byte(~i);   //1闪烁
+  77   1              NOSELECT7279;           //置CS高电平 
+  78   1      }
+  79          
+  80          /*
+  81          void BlankLED(unsigned char ch)
+  82          {
+  83                  Send7279Byte(0x98);     //发消隐指令 
+  84                  Send7279Byte(ch);   //1-显示 0-消隐
+  85                  NOSELECT7279;           //置CS高电平 
+  86          }
+  87          */
+  88          
+  89          void MoveLeft(void)
+  90          {
+  91   1              Send7279Byte(0xA1);     //发左移指令 
+  92   1              NOSELECT7279;           //置CS高电平 
+  93   1      }
+  94          
+  95          void MoveRight(void)
+  96          {
+  97   1              Send7279Byte(0xA0);     //发右移指令 
+  98   1              NOSELECT7279;           //置CS高电平 
+  99   1      }
+ 100          
+ 101          unsigned char code BdSeg[]={
+ 102                                                  0x7e,0x30,0x6d,0x79, // 0 1 2 3 
+ 103                                  0x33,0x5b,0x5f,0x70, // 4 5 6 7
+ 104                                  0x7f,0x7b,0x77,0x1f, // 8 9 a b
+ 105                                  0x4e,0x3d,0x4f,0x47, // c d e f
+ 106                                  0x00,0x01}; 
+ 107          /*
+ 108          ;              b6
+ 109          ;             ----
+ 110          ;          b1| b0 |b5
+ 111          ;             ----        small
+ 112          ;          b2| b3 |b4
+ 113          ;             ---- .b7
+ 114          */
+ 115          void DispLED(char *DispBuf,char ShowDot)//ShowDot 显示小数点位 
+ 116          {
+ 117   1      char i,ch;
+C51 COMPILER V6.23a  TEST7279                                                              10/23/2009 00:39:17 PAGE 3   
+
+ 118   1              ShowDot--;
+ 119   1              for (i=0;i<6;i++)
+ 120   1              {
+ 121   2                      ch=DispBuf[i];
+ 122   2                      if ((ch>='a') && (ch<='f'))
+ 123   2                      {
+ 124   3                         ch-='a';ch+=0xa;
+ 125   3                      }
+ 126   2                      if ((ch>='A') && (ch<='F'))
+ 127   2                      {
+ 128   3                         ch-='A';ch+=0xa;
+ 129   3                      }
+ 130   2                      Send7279Byte(0x90+5-i); //不译码
+ 131   2                      if (ch==' ')
+ 132   2                              Send7279Byte(0x00); 
+ 133   2                      else
+ 134   2                              if (ch=='-')
+ 135   2                                      Send7279Byte(0x01); 
+ 136   2                              else 
+ 137   2                              {
+ 138   3                                      if (ShowDot==i)
+ 139   3                                              Send7279Byte(0x80|BdSeg[ch&0x0f]); 
+ 140   3                                      else
+ 141   3                                              Send7279Byte(BdSeg[ch&0x0f]); 
+ 142   3                              }
+ 143   2              }
+ 144   1              NOSELECT7279;           //置CS高电平 
+ 145   1      }
+ 146          
+ 147          char GetKeyValue(void)
+ 148          {
+ 149   1              char KeyValue;
+ 150   1              if (CPT1CN&0x40) return -1;     //无键按下 
+ 151   1              Send7279Byte(0x15);     //发读键盘指令 
+ 152   1              KeyValue=Receive7279Byte();
+ 153   1              NOSELECT7279;           //置CS高电平 
+ 154   1              return KeyValue; 
+ 155   1      }
+ 156          
+ 157          void WaitKeyOff(void)
+ 158          {
+ 159   1              while  (!(CPT1CN&0x40));
+ 160   1      }
+ 161          
+ 162          void Test7279(bit LoopFlag)
+ 163          {
+ 164   1              char i,KeyValue;
+ 165   1              Delay1ms(25);           //等待25ms复位时间 
+ 166   1              Send7279Byte(0xA4);     //发复位指令 
+ 167   1              NOSELECT7279;           //置CS高电平 
+ 168   1              if (LoopFlag==0) return;
+ 169   1              DispLED("123456",0);    //显示123456
+ 170   1              for (i=0;i<8;i++)
+ 171   1              {
+ 172   2                      Delay1s(1);
+ 173   2                      MoveLeft();
+ 174   2              }
+ 175   1      
+ 176   1              DispLED("123456",0);    //显示123456
+ 177   1              DispLED("7890AB",2);    //显示123456
+ 178   1              DispLED("CDEF -",3);    //显示123456
+ 179   1      
+C51 COMPILER V6.23a  TEST7279                                                              10/23/2009 00:39:17 PAGE 4   
+
+ 180   1              for (i=0;i<6;i++)
+ 181   1              {
+ 182   2                      Delay1s(1);
+ 183   2                      MoveRight();
+ 184   2              }
+ 185   1      
+ 186   1              DispLED("F    1",1);    //显示123456
+ 187   1      
+ 188   1              FlashLED(0);    //第一位闪烁
+ 189   1              Delay1s(1);
+ 190   1              FlashLED(1);    //第二位闪烁
+ 191   1              Delay1s(1);
+ 192   1              FlashLED(8);    //关闪烁
+ 193   1      
+ 194   1              //BlankLED(0x23); //注意:执行消隐后,键盘输入中断口不能恢复.
+ 195   1      
+ 196   1              for (;;)
+ 197   1              {       
+ 198   2                      KeyValue=GetKeyValue();
+ 199   2               if(KeyValue!=-1)
+ 200   2                {
+ 201   3                          Send7279Byte(0xC8); //发送键码值，按方式1译码下载显示 
+ 202   3                          Send7279Byte(KeyValue%16);
+ 203   3                          NOSELECT7279;       //置CS高电平 
+ 204   3                          WaitKeyOff();
+ 205   3                 }
+ 206   2              }
+ 207   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    544    ----
+   CONSTANT SIZE    =     46    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      13
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

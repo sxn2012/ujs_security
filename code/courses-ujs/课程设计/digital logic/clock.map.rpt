@@ -1,0 +1,373 @@
+Analysis & Synthesis report for clock
+Thu Jun 23 08:46:15 2016
+Quartus II Version 9.0 Build 132 02/25/2009 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Analysis & Synthesis Source Files Read
+  5. Analysis & Synthesis Resource Usage Summary
+  6. Analysis & Synthesis Resource Utilization by Entity
+  7. User-Specified and Inferred Latches
+  8. Registers Removed During Synthesis
+  9. General Register Statistics
+ 10. Inverted Register Statistics
+ 11. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 12. Parameter Settings for User Entity Instance: divider:inst
+ 13. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2009 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                           ;
++-----------------------------+------------------------------------------+
+; Analysis & Synthesis Status ; Successful - Thu Jun 23 08:46:15 2016    ;
+; Quartus II Version          ; 9.0 Build 132 02/25/2009 SJ Full Version ;
+; Revision Name               ; clock                                    ;
+; Top-level Entity Name       ; clock                                    ;
+; Family                      ; Cyclone                                  ;
+; Total logic elements        ; 120                                      ;
+; Total pins                  ; 14                                       ;
+; Total virtual pins          ; 0                                        ;
+; Total memory bits           ; 0                                        ;
+; Total PLLs                  ; 0                                        ;
++-----------------------------+------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                            ;
++----------------------------------------------------------------+--------------------+--------------------+
+; Option                                                         ; Setting            ; Default Value      ;
++----------------------------------------------------------------+--------------------+--------------------+
+; Device                                                         ; EP1C12F324C8       ;                    ;
+; Top-level entity name                                          ; clock              ; clock              ;
+; Family name                                                    ; Cyclone            ; Stratix II         ;
+; Use Generated Physical Constraints File                        ; Off                ;                    ;
+; Use smart compilation                                          ; Off                ; Off                ;
+; Restructure Multiplexers                                       ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                            ; Off                ; Off                ;
+; Preserve fewer node names                                      ; On                 ; On                 ;
+; Disable OpenCore Plus hardware evaluation                      ; Off                ; Off                ;
+; Verilog Version                                                ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                   ; VHDL93             ; VHDL93             ;
+; State Machine Processing                                       ; Auto               ; Auto               ;
+; Safe State Machine                                             ; Off                ; Off                ;
+; Extract Verilog State Machines                                 ; On                 ; On                 ;
+; Extract VHDL State Machines                                    ; On                 ; On                 ;
+; Ignore Verilog initial constructs                              ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                     ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                 ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                        ; On                 ; On                 ;
+; Parallel Synthesis                                             ; Off                ; Off                ;
+; NOT Gate Push-Back                                             ; On                 ; On                 ;
+; Power-Up Don't Care                                            ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                   ; Off                ; Off                ;
+; Remove Duplicate Registers                                     ; On                 ; On                 ;
+; Ignore CARRY Buffers                                           ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                         ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                          ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                      ; Off                ; Off                ;
+; Ignore LCELL Buffers                                           ; Off                ; Off                ;
+; Ignore SOFT Buffers                                            ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                 ; Off                ; Off                ;
+; Optimization Technique                                         ; Balanced           ; Balanced           ;
+; Carry Chain Length                                             ; 70                 ; 70                 ;
+; Auto Carry Chains                                              ; On                 ; On                 ;
+; Auto Open-Drain Pins                                           ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                          ; Off                ; Off                ;
+; Auto ROM Replacement                                           ; On                 ; On                 ;
+; Auto RAM Replacement                                           ; On                 ; On                 ;
+; Auto Shift Register Replacement                                ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                  ; On                 ; On                 ;
+; Strict RAM Replacement                                         ; Off                ; Off                ;
+; Allow Synchronous Control Signals                              ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                         ; Off                ; Off                ;
+; Auto RAM Block Balancing                                       ; On                 ; On                 ;
+; Auto RAM to Logic Cell Conversion                              ; Off                ; Off                ;
+; Auto Resource Sharing                                          ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                             ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                             ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                  ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing            ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives              ; Off                ; Off                ;
+; Show Parameter Settings Tables in Synthesis Report             ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                             ; Off                ; Off                ;
+; Synchronization Register Chain Length                          ; 2                  ; 2                  ;
+; PowerPlay Power Optimization                                   ; Normal compilation ; Normal compilation ;
+; HDL message level                                              ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report       ; 100                ; 100                ;
+; Number of Inverted Registers Reported in Synthesis Report      ; 100                ; 100                ;
+; Clock MUX Protection                                           ; On                 ; On                 ;
+; Block Design Naming                                            ; Auto               ; Auto               ;
+; Synthesis Effort                                               ; Auto               ; Auto               ;
+; Allows Asynchronous Clear Usage For Shift Register Replacement ; On                 ; On                 ;
+; Analysis & Synthesis Message Level                             ; Medium             ; Medium             ;
++----------------------------------------------------------------+--------------------+--------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                    ;
++----------------------------------+-----------------+------------------------------------+---------------------------------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path    ;
++----------------------------------+-----------------+------------------------------------+---------------------------------+
+; divider.vhd                      ; yes             ; User VHDL File                     ; F:/altera/90/150128/divider.vhd ;
+; control.vhd                      ; yes             ; User VHDL File                     ; F:/altera/90/150128/control.vhd ;
+; cnt100.vhd                       ; yes             ; User VHDL File                     ; F:/altera/90/150128/cnt100.vhd  ;
+; cnt60.vhd                        ; yes             ; User VHDL File                     ; F:/altera/90/150128/cnt60.vhd   ;
+; number.bdf                       ; yes             ; User Block Diagram/Schematic File  ; F:/altera/90/150128/number.bdf  ;
+; scan.vhd                         ; yes             ; User VHDL File                     ; F:/altera/90/150128/scan.vhd    ;
+; clock.bdf                        ; yes             ; User Block Diagram/Schematic File  ; F:/altera/90/150128/clock.bdf   ;
++----------------------------------+-----------------+------------------------------------+---------------------------------+
+
+
++-----------------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                           ;
++---------------------------------------------+-------------------------+
+; Resource                                    ; Usage                   ;
++---------------------------------------------+-------------------------+
+; Total logic elements                        ; 120                     ;
+;     -- Combinational with no register       ; 76                      ;
+;     -- Register only                        ; 3                       ;
+;     -- Combinational with a register        ; 41                      ;
+;                                             ;                         ;
+; Logic element usage by number of LUT inputs ;                         ;
+;     -- 4 input functions                    ; 91                      ;
+;     -- 3 input functions                    ; 7                       ;
+;     -- 2 input functions                    ; 9                       ;
+;     -- 1 input functions                    ; 10                      ;
+;     -- 0 input functions                    ; 0                       ;
+;                                             ;                         ;
+; Logic elements by mode                      ;                         ;
+;     -- normal mode                          ; 120                     ;
+;     -- arithmetic mode                      ; 0                       ;
+;     -- qfbk mode                            ; 0                       ;
+;     -- register cascade mode                ; 0                       ;
+;     -- synchronous clear/load mode          ; 0                       ;
+;     -- asynchronous clear/load mode         ; 35                      ;
+;                                             ;                         ;
+; Total registers                             ; 44                      ;
+; I/O pins                                    ; 14                      ;
+; Maximum fan-out node                        ; control:inst1|result[0] ;
+; Maximum fan-out                             ; 68                      ;
+; Total fan-out                               ; 533                     ;
+; Average fan-out                             ; 3.98                    ;
++---------------------------------------------+-------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                ;
++----------------------------+-------------+--------------+-------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+----------------------------------+--------------+
+; Compilation Hierarchy Node ; Logic Cells ; LC Registers ; Memory Bits ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Carry Chain LCs ; Packed LCs ; Full Hierarchy Name              ; Library Name ;
++----------------------------+-------------+--------------+-------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+----------------------------------+--------------+
+; |clock                     ; 120 (3)     ; 44           ; 0           ; 14   ; 0            ; 76 (0)       ; 3 (3)             ; 41 (0)           ; 0 (0)           ; 0 (0)      ; |clock                           ; work         ;
+;    |control:inst1|         ; 3 (3)       ; 0            ; 0           ; 0    ; 0            ; 3 (3)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |clock|control:inst1             ; work         ;
+;    |divider:inst|          ; 3 (3)       ; 3            ; 0           ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 3 (3)            ; 0 (0)           ; 0 (0)      ; |clock|divider:inst              ; work         ;
+;    |number:inst4|          ; 80 (0)      ; 35           ; 0           ; 0    ; 0            ; 45 (0)       ; 0 (0)             ; 35 (0)           ; 0 (0)           ; 0 (0)      ; |clock|number:inst4              ; work         ;
+;       |cnt100:inst3|       ; 18 (18)     ; 8            ; 0           ; 0    ; 0            ; 10 (10)      ; 0 (0)             ; 8 (8)            ; 0 (0)           ; 0 (0)      ; |clock|number:inst4|cnt100:inst3 ; work         ;
+;       |cnt100:inst|        ; 20 (20)     ; 9            ; 0           ; 0    ; 0            ; 11 (11)      ; 0 (0)             ; 9 (9)            ; 0 (0)           ; 0 (0)      ; |clock|number:inst4|cnt100:inst  ; work         ;
+;       |cnt60:inst1|        ; 21 (21)     ; 9            ; 0           ; 0    ; 0            ; 12 (12)      ; 0 (0)             ; 9 (9)            ; 0 (0)           ; 0 (0)      ; |clock|number:inst4|cnt60:inst1  ; work         ;
+;       |cnt60:inst2|        ; 21 (21)     ; 9            ; 0           ; 0    ; 0            ; 12 (12)      ; 0 (0)             ; 9 (9)            ; 0 (0)           ; 0 (0)      ; |clock|number:inst4|cnt60:inst2  ; work         ;
+;    |scan:inst7|            ; 31 (31)     ; 3            ; 0           ; 0    ; 0            ; 28 (28)      ; 0 (0)             ; 3 (3)            ; 0 (0)           ; 0 (0)      ; |clock|scan:inst7                ; work         ;
++----------------------------+-------------+--------------+-------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+----------------------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++--------------------------------------------------------------------------------------------------------+
+; User-Specified and Inferred Latches                                                                    ;
++-----------------------------------------------------+-------------------------+------------------------+
+; Latch Name                                          ; Latch Enable Signal     ; Free of Timing Hazards ;
++-----------------------------------------------------+-------------------------+------------------------+
+; scan:inst7|\p2:a                                    ; inst9                   ; yes                    ;
+; number:inst4|cnt60:inst1|qout[4]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst2|qout[4]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst3|qout[4]                   ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst|qout[4]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst2|qout[0]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst1|qout[0]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst3|qout[0]                   ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst|qout[0]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst1|qout[5]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst2|qout[5]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst3|qout[5]                   ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst|qout[5]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst2|qout[1]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst1|qout[1]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst3|qout[1]                   ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst|qout[1]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst1|qout[6]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst2|qout[6]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst3|qout[6]                   ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst|qout[6]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst2|qout[2]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst1|qout[2]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst3|qout[2]                   ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst|qout[2]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst1|qout[7]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst2|qout[7]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst3|qout[7]                   ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst|qout[7]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst2|qout[3]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt60:inst1|qout[3]                    ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst3|qout[3]                   ; control:inst1|result[1] ; yes                    ;
+; number:inst4|cnt100:inst|qout[3]                    ; control:inst1|result[1] ; yes                    ;
+; control:inst1|result[1]                             ; inst2                   ; yes                    ;
+; control:inst1|result[0]                             ; GND                     ; yes                    ;
+; Number of user-specified and inferred latches = 35  ;                         ;                        ;
++-----------------------------------------------------+-------------------------+------------------------+
+Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
+
+
++------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                     ;
++---------------------------------------+--------------------------------+
+; Register name                         ; Reason for Removal             ;
++---------------------------------------+--------------------------------+
+; divider:inst|count[0]                 ; Merged with scan:inst7|sel1[0] ;
+; divider:inst|count[1]                 ; Merged with scan:inst7|sel1[1] ;
+; Total Number of Removed Registers = 2 ;                                ;
++---------------------------------------+--------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 44    ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 35    ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 28    ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++--------------------------------------------------+
+; Inverted Register Statistics                     ;
++----------------------------------------+---------+
+; Inverted Register                      ; Fan out ;
++----------------------------------------+---------+
+; scan:inst7|sel1[0]                     ; 10      ;
+; divider:inst|count[3]                  ; 2       ;
+; Total number of inverted registers = 2 ;         ;
++----------------------------------------+---------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+; 9:1                ; 4 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; No         ; |clock|scan:inst7|out1[3]  ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+
+
++-----------------------------------------------------------+
+; Parameter Settings for User Entity Instance: divider:inst ;
++----------------+-------+----------------------------------+
+; Parameter Name ; Value ; Type                             ;
++----------------+-------+----------------------------------+
+; n              ; 10    ; Signed Integer                   ;
++----------------+-------+----------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings Tables in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II Analysis & Synthesis
+    Info: Version 9.0 Build 132 02/25/2009 SJ Full Version
+    Info: Processing started: Thu Jun 23 08:46:13 2016
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off clock -c clock
+Info: Found 2 design units, including 1 entities, in source file divider.vhd
+    Info: Found design unit 1: divider-behave
+    Info: Found entity 1: divider
+Info: Found 2 design units, including 1 entities, in source file control.vhd
+    Info: Found design unit 1: control-behave
+    Info: Found entity 1: control
+Info: Found 2 design units, including 1 entities, in source file cnt100.vhd
+    Info: Found design unit 1: cnt100-behave
+    Info: Found entity 1: cnt100
+Info: Found 2 design units, including 1 entities, in source file cnt60.vhd
+    Info: Found design unit 1: cnt60-behave
+    Info: Found entity 1: cnt60
+Info: Found 1 design units, including 1 entities, in source file number.bdf
+    Info: Found entity 1: number
+Info: Found 2 design units, including 1 entities, in source file scan.vhd
+    Info: Found design unit 1: scan-behave
+    Info: Found entity 1: scan
+Info: Found 1 design units, including 1 entities, in source file clock.bdf
+    Info: Found entity 1: clock
+Info: Elaborating entity "clock" for the top level hierarchy
+Info: Elaborating entity "scan" for hierarchy "scan:inst7"
+Warning (10492): VHDL Process Statement warning at scan.vhd(24): signal "sel1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10631): VHDL Process Statement warning at scan.vhd(28): inferring latch(es) for signal or variable "a", which holds its previous value in one or more paths through the process
+Info (10041): Inferred latch for "p2:a" at scan.vhd(31)
+Info: Elaborating entity "number" for hierarchy "number:inst4"
+Info: Elaborating entity "cnt100" for hierarchy "number:inst4|cnt100:inst3"
+Warning (10492): VHDL Process Statement warning at cnt100.vhd(28): signal "qh" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10492): VHDL Process Statement warning at cnt100.vhd(28): signal "ql" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10631): VHDL Process Statement warning at cnt100.vhd(14): inferring latch(es) for signal or variable "qout", which holds its previous value in one or more paths through the process
+Info (10041): Inferred latch for "qout[0]" at cnt100.vhd(14)
+Info (10041): Inferred latch for "qout[1]" at cnt100.vhd(14)
+Info (10041): Inferred latch for "qout[2]" at cnt100.vhd(14)
+Info (10041): Inferred latch for "qout[3]" at cnt100.vhd(14)
+Info (10041): Inferred latch for "qout[4]" at cnt100.vhd(14)
+Info (10041): Inferred latch for "qout[5]" at cnt100.vhd(14)
+Info (10041): Inferred latch for "qout[6]" at cnt100.vhd(14)
+Info (10041): Inferred latch for "qout[7]" at cnt100.vhd(14)
+Info: Elaborating entity "cnt60" for hierarchy "number:inst4|cnt60:inst2"
+Warning (10492): VHDL Process Statement warning at cnt60.vhd(27): signal "qh" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10492): VHDL Process Statement warning at cnt60.vhd(27): signal "ql" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10631): VHDL Process Statement warning at cnt60.vhd(14): inferring latch(es) for signal or variable "qout", which holds its previous value in one or more paths through the process
+Info (10041): Inferred latch for "qout[0]" at cnt60.vhd(14)
+Info (10041): Inferred latch for "qout[1]" at cnt60.vhd(14)
+Info (10041): Inferred latch for "qout[2]" at cnt60.vhd(14)
+Info (10041): Inferred latch for "qout[3]" at cnt60.vhd(14)
+Info (10041): Inferred latch for "qout[4]" at cnt60.vhd(14)
+Info (10041): Inferred latch for "qout[5]" at cnt60.vhd(14)
+Info (10041): Inferred latch for "qout[6]" at cnt60.vhd(14)
+Info (10041): Inferred latch for "qout[7]" at cnt60.vhd(14)
+Info: Elaborating entity "divider" for hierarchy "divider:inst"
+Info: Elaborating entity "control" for hierarchy "control:inst1"
+Warning (10492): VHDL Process Statement warning at control.vhd(19): signal "result" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10631): VHDL Process Statement warning at control.vhd(14): inferring latch(es) for signal or variable "result", which holds its previous value in one or more paths through the process
+Info (10041): Inferred latch for "result[0]" at control.vhd(14)
+Info (10041): Inferred latch for "result[1]" at control.vhd(14)
+Info: Implemented 134 device resources after synthesis - the final resource count might be different
+    Info: Implemented 4 input pins
+    Info: Implemented 10 output pins
+    Info: Implemented 120 logic cells
+Info: Quartus II Analysis & Synthesis was successful. 0 errors, 10 warnings
+    Info: Peak virtual memory: 192 megabytes
+    Info: Processing ended: Thu Jun 23 08:46:15 2016
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:02
+
+

@@ -1,0 +1,42 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 10/23/2009 01:11:29 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.23
+OBJECT MODULE PLACED IN main.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE main.asm XR GEN DB EP NOMOD51
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+0000 2100              2             AJMP MAIN
+0100                   3     ORG 0100H
+0100                   4     MAIN:
+0100 7F10              5             MOV R7,#16
+0102 7970              6             MOV R1,#70H
+0104 907000            7             MOV DPTR,#7000H
+0107                   8     LOOP1:
+0107 E7                9             MOV A,@R1
+0108 F0               10             MOVX @DPTR,A
+0109 A3               11             INC DPTR
+010A 09               12             INC R1
+010B DFFA             13             DJNZ R7,LOOP1
+010D                  14     HERE:
+010D 210D             15             AJMP HERE
+                      16     END
+A51 MACRO ASSEMBLER  MAIN                                                                 10/23/2009 01:11:29 PAGE     2
+
+XREF SYMBOL TABLE LISTING
+---- ------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES / REFERENCES
+
+HERE . . . . . . .  C ADDR   010DH   A      14# 15
+LOOP1. . . . . . .  C ADDR   0107H   A      8# 13
+MAIN . . . . . . .  C ADDR   0100H   A      2 4#
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

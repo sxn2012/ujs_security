@@ -1,0 +1,178 @@
+C51 COMPILER V6.23a  MAIN                                                                  10/23/2009 00:56:51 PAGE 1   
+
+
+C51 COMPILER V6.23a, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\c51.exe main.c DB OE BR
+
+stmt level    source
+
+   1          #include "c8051f020.h"                
+   2          #include <intrins.h>
+   3          
+   4          //1---片内温度、2-----电位、3-----压力
+   5          
+   6          void Delay1us(unsigned char us)
+   7          {
+   8   1              while (us)
+   9   1              {
+  10   2                _nop_(); _nop_(); _nop_(); _nop_(); _nop_();
+  11   2                --us;
+  12   2              }
+  13   1      }
+  14          
+  15          void SYSCLK_Init (void)
+  16          {
+  17   1         int i;                              // delay counter
+  18   1         OSCXCN = 0x67;                      // start external oscillator with
+  19   1                                             // 18.432MHz crystal
+  20   1         for (i=0; i < 256; i++) ;           // Wait for osc. to start up
+  21   1         while (!(OSCXCN & 0x80)) ;          // Wait for crystal osc. to settle
+  22   1         OSCICN = 0x88;                      // select external oscillator as SYSCLK
+  23   1                                             // source and enable missing clock
+  24   1                                             // detector
+  25   1      //      OSCICN = 0x07;   //interal 16MHZ
+  26   1      }
+  27          
+  28          #define PRT0CF P0MDOUT
+  29          #define PRT1CF P1MDOUT
+  30          #define PRT2CF P2MDOUT
+  31          
+  32          void PORT_Init (void)
+  33          {
+  34   1         XBR0    = 0x07;                     // Enable SMBus, SPI0, and UART0
+  35   1         XBR1    = 0x00;
+  36   1         XBR2    = 0x44;                     // Enable crossbar and weak pull-ups
+  37   1         EMI0CF  = 0x27;
+  38   1         EMI0TC  = 0x21;
+  39   1         P74OUT  = 0xFF;
+  40   1         P0MDOUT = 0x15;
+  41   1      
+  42   1         P1MDOUT |= 0x3C;                                     //P1.2-P1.5推挽输出
+  43   1         P1 &= 0xc3;                                                  //P1.2-P1.5=0
+  44   1      }
+  45          
+  46          void SPI0_Init (void)
+  47          {
+  48   1         SPI0CFG = 0x07;                     // data sampled on 1st SCK rising edge
+  49   1                                             // 8-bit data words
+  50   1         SPI0CFG|=0xC0;       //CKPOL =1;
+  51   1      
+  52   1         SPI0CN = 0x03;                      // Master mode; SPI enabled; flags
+  53   1                                             // cleared
+  54   1         SPI0CKR = SYSCLK/2/8000000-1;       // SPI clock <= 8MHz (limited by 
+  55   1                                             // EEPROM spec.)
+C51 COMPILER V6.23a  MAIN                                                                  10/23/2009 00:56:51 PAGE 2   
+
+  56   1      }
+  57          
+  58          unsigned char Count1ms;
+  59          void Timer0_Init (void)
+  60          {
+  61   1              CKCON|=0x8;
+  62   1              TMOD|=0x1;      //16Bit
+  63   1              Count1ms=10;
+  64   1              TR0 = 0;                                // STOP Timer0
+  65   1              TH0 = (-SYSCLK/1000) >> 8;              // set Timer0 to overflow in 1ms
+  66   1              TL0 = -SYSCLK/1000;
+  67   1              TR0 = 1;        // START Timer0
+  68   1              IE|= 0x2; 
+  69   1      }
+  70          
+  71          void Timer0_ISR (void) interrupt 1  //1ms
+  72          {
+  73   1              TH0 = (-SYSCLK/1000) >> 8;  
+  74   1              TL0 = -SYSCLK/1000;
+  75   1              if (Count1ms) Count1ms--;
+  76   1      }
+  77          
+  78          void Delay1ms(unsigned char T)
+  79          {
+  80   1              Count1ms=T;
+  81   1              while (Count1ms);
+  82   1      }
+  83          
+  84          void Delay1s(unsigned char T)
+  85          {
+  86   1              while (T)
+  87   1              {
+  88   2                      Delay1ms(200);
+  89   2                      Delay1ms(200);
+  90   2                      Delay1ms(200);
+  91   2                      Delay1ms(200);
+  92   2                      Delay1ms(200);
+  93   2                      T--;
+  94   2              }
+  95   1      }
+  96          char GetKeyValue(void);
+  97          void Test7279(bit LoopFlag);
+  98          void init_adc(void);
+  99          unsigned int GetADCValue(char No);
+ 100          void DispLED(char *DispBuf,char ShowDot);       //ShowDot 显示小数点位 
+ 101          void main (void) 
+ 102          {
+ 103   1      unsigned int w;
+ 104   1      char No,i,buf[6];
+ 105   1      int sum=0;
+ 106   1              No=1;
+ 107   1              WDTCN = 0xde;
+ 108   1              WDTCN = 0xad;           //关看门狗
+ 109   1              SYSCLK_Init ();         //初始化时钟
+ 110   1              Timer0_Init();                  //初始化定时器
+ 111   1              PORT_Init ();           //初始化IO口
+ 112   1              SPI0_Init ();           //初始化SPI0
+ 113   1              init_adc();
+ 114   1              CPT1CN|=0x80;   //使能比较器1
+ 115   1              REF0CN = 0x07;  //使能片内参考电压
+ 116   1              DAC0CN |= 0x80; //使能DAC0
+ 117   1              DAC0H=0;        DAC0L=0;
+C51 COMPILER V6.23a  MAIN                                                                  10/23/2009 00:56:51 PAGE 3   
+
+ 118   1      
+ 119   1              EA=1;                                   //开中断
+ 120   1      
+ 121   1              Test7279(0);
+ 122   1              w = GetADCValue(1);
+ 123   1              for (;;)
+ 124   1              {
+ 125   2                      i=GetKeyValue();
+ 126   2                      if ((i>=1)&&(i<=3))
+ 127   2                      No=i;
+ 128   2                      Delay1ms(250);
+ 129   2                      buf[0]=No;
+ 130   2                      buf[1]=' ';
+ 131   2                      buf[2]=(w%10000)/1000;
+ 132   2                      buf[3]=(w%1000)/100;
+ 133   2                      buf[4]=(w%100)/10;
+ 134   2                      buf[5]=(w%10);
+ 135   2                      if (No==2)
+ 136   2                      {
+ 137   3                              sum=buf[2]*1000+buf[3]*100+buf[4]*10+buf[5];
+ 138   3                              sum=(int)(sum/2.4);
+ 139   3                              buf[2]=sum/1000;
+ 140   3                              buf[3]=sum/100%10;
+ 141   3                              buf[4]=sum/10%10;
+ 142   3                              buf[5]=sum%10;
+ 143   3                              DispLED(buf,6); 
+ 144   3                      }                       
+ 145   2                      else
+ 146   2                              DispLED(buf,4);                         
+ 147   2                      w = GetADCValue(No);
+ 148   2              }
+ 149   1      
+ 150   1      }
+ 151          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    534    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1      11
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

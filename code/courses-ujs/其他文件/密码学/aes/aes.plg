@@ -1,0 +1,54 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: aes - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\sxn\AppData\Local\Temp\RSP2539.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/aes.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"H:\moving files\新建文件夹\5_aes\aes\test.c"
+]
+Creating command line "cl.exe @C:\Users\sxn\AppData\Local\Temp\RSP2539.tmp" 
+Creating temporary file "C:\Users\sxn\AppData\Local\Temp\RSP253A.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/aes.pdb" /debug /machine:I386 /out:"Debug/aes.exe" /pdbtype:sept 
+".\Debug\RIJNDAEL.OBJ"
+".\Debug\test.obj"
+]
+Creating command line "link.exe @C:\Users\sxn\AppData\Local\Temp\RSP253A.tmp"
+<h3>Output Window</h3>
+Compiling...
+test.c
+H:\moving files\新建文件夹\5_aes\aes\test.c(47) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'const unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(49) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'const unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(49) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(50) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'const unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(50) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(65) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'const unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(65) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(66) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'const unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(66) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(99) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'const unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(104) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'const unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(104) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(109) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'const unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(109) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(123) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'const unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(123) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(124) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'const unsigned char *'
+H:\moving files\新建文件夹\5_aes\aes\test.c(124) : warning C4133: 'function' : incompatible types - from 'unsigned long [4]' to 'unsigned char *'
+Linking...
+Creating command line "bscmake.exe /nologo /o"Debug/aes.bsc"  ".\Debug\RIJNDAEL.SBR" ".\Debug\test.sbr""
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+aes.exe - 0 error(s), 18 warning(s)
+</pre>
+</body>
+</html>

@@ -1,0 +1,200 @@
+C51 COMPILER V6.23a  MAIN                                                                  10/23/2009 00:39:17 PAGE 1   
+
+
+C51 COMPILER V6.23a, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\c51.exe main.c DB OE BR
+
+stmt level    source
+
+   1          #include "c8051f020.h"                
+   2          #include <intrins.h>
+   3          
+   4          sfr16 DAC0  = 0xd2;                 // DAC0 data
+   5          #define PRT0CF P0MDOUT
+   6          #define PRT1CF P1MDOUT
+   7          #define PRT2CF P2MDOUT
+   8          //#define SetSpeed 30
+   9          // 按0 减速2，按1加速2
+  10          
+  11          unsigned int Count1s=1000;
+  12          unsigned int SaveMotorCount,MotorCount=0;
+  13          unsigned int iDAC0=2048;
+  14          unsigned int SetSpeed=30;
+  15          int SD;
+  16          unsigned char Count1ms;
+  17          char GetKeyValue(void);
+  18          
+  19          void Test7279(bit LoopFlag);
+  20          void DispLED(char *DispBuf,char ShowDot);       //ShowDot 显示小数点位 
+  21          void TestMotor(void);
+  22          
+  23          
+  24          
+  25          
+  26          
+  27          void Delay1us(unsigned char us)
+  28          {
+  29   1              while (us)
+  30   1              {
+  31   2                _nop_(); _nop_(); _nop_(); _nop_(); _nop_();
+  32   2                --us;
+  33   2              }
+  34   1      }
+  35          
+  36          void SYSCLK_Init (void)
+  37          {
+  38   1         int i;                              // delay counter
+  39   1         OSCXCN = 0x67;                      // start external oscillator with
+  40   1                                             // 18.432MHz crystal
+  41   1         for (i=0; i < 256; i++) ;           // Wait for osc. to start up
+  42   1         while (!(OSCXCN & 0x80)) ;          // Wait for crystal osc. to settle
+  43   1         OSCICN = 0x88;                      // select external oscillator as SYSCLK
+  44   1                                             // source and enable missing clock
+  45   1                                             // detector
+  46   1      //      OSCICN = 0x07;   //interal 16MHZ
+  47   1      }
+  48          
+  49          
+  50          void PORT_Init (void)
+  51          {
+  52   1         XBR0    = 0x07;                     // Enable SMBus, SPI0, and UART0
+  53   1         XBR1    = 0x04;                                         //P10<---int0
+  54   1         XBR2    = 0x40;                     // Enable crossbar and weak pull-ups
+  55   1         EMI0CF  = 0x27;
+C51 COMPILER V6.23a  MAIN                                                                  10/23/2009 00:39:17 PAGE 2   
+
+  56   1         EMI0TC  = 0x21;
+  57   1         P74OUT  = 0xFF;
+  58   1         P0MDOUT = 0x15;
+  59   1      
+  60   1         P1MDOUT |= 0x3C;                                     //P1.2-P1.5推挽输出
+  61   1         P1 &= 0xc3;                                                  //P1.2-P1.5=0
+  62   1      }
+  63          
+  64          void SPI0_Init (void)
+  65          {
+  66   1         SPI0CFG = 0x07;                     // data sampled on 1st SCK rising edge
+  67   1                                             // 8-bit data words
+  68   1         SPI0CFG|=0xC0;       //CKPOL =1;
+  69   1      
+  70   1         SPI0CN = 0x03;                      // Master mode; SPI enabled; flags
+  71   1                                             // cleared
+  72   1         SPI0CKR = SYSCLK/2/8000000-1;       // SPI clock <= 8MHz (limited by 
+  73   1                                             // EEPROM spec.)
+  74   1      }
+  75          
+  76          void Timer0_Init (void)
+  77          {
+  78   1              CKCON|=0x8;
+  79   1              TMOD|=0x1;      //16Bit
+  80   1              Count1ms=10;
+  81   1              TR0 = 0;                                // STOP Timer0
+  82   1              TH0 = (-SYSCLK/1000) >> 8;              // set Timer0 to overflow in 1ms
+  83   1              TL0 = -SYSCLK/1000;
+  84   1              TR0 = 1;        // START Timer0
+  85   1              IE|= 0x2; 
+  86   1      }
+  87          
+  88          
+  89          void Timer0_ISR (void) interrupt 1  //1ms
+  90          {
+  91   1              TH0 = (-SYSCLK/1000) >> 8;  
+  92   1              TL0 = -SYSCLK/1000;
+  93   1              if (Count1ms) Count1ms--;
+  94   1              if (Count1s) Count1s--;
+  95   1              else
+  96   1              {
+  97   2                      Count1s=1000;
+  98   2              SaveMotorCount=MotorCount;
+  99   2                      MotorCount=0;
+ 100   2                      SD=SaveMotorCount/2-SetSpeed;
+ 101   2                      SaveMotorCount*=30;
+ 102   2                      if (SD)
+ 103   2      //此处算法比较简单，其增量控制可以采用PID算法实现。
+ 104   2                      {
+ 105   3                              if ((SD>5)||(SD<-5))
+ 106   3                              iDAC0-=SD*4;
+ 107   3                              else
+ 108   3                                      iDAC0-=SD;
+ 109   3                                                              
+ 110   3                              DAC0=iDAC0;
+ 111   3                           
+ 112   3                              }
+ 113   2              }
+ 114   1      }
+ 115          
+ 116          void Int0_ISR (void) interrupt 0  
+ 117          {
+C51 COMPILER V6.23a  MAIN                                                                  10/23/2009 00:39:17 PAGE 3   
+
+ 118   1              MotorCount++;
+ 119   1      }
+ 120          
+ 121          void Delay1ms(unsigned char T)
+ 122          {
+ 123   1              Count1ms=T;
+ 124   1              while (Count1ms);
+ 125   1      }
+ 126          
+ 127          void Delay1s(unsigned char T)
+ 128          {
+ 129   1              while (T)
+ 130   1              {
+ 131   2                      Delay1ms(200);
+ 132   2                      Delay1ms(200);
+ 133   2                      Delay1ms(200);
+ 134   2                      Delay1ms(200);
+ 135   2                      Delay1ms(200);
+ 136   2                      T--;
+ 137   2              }
+ 138   1      }
+ 139          
+ 140          void main (void) 
+ 141          {
+ 142   1          int kp;
+ 143   1              WDTCN = 0xde;
+ 144   1              WDTCN = 0xad;           //关看门狗
+ 145   1              SYSCLK_Init ();         //初始化时钟
+ 146   1              Timer0_Init();                  //初始化定时器
+ 147   1              PORT_Init ();           //初始化IO口
+ 148   1              SPI0_Init ();           //初始化SPI0
+ 149   1              CPT1CN|=0x80;                   //使能比较器1
+ 150   1              REF0CN = 0x07;                  //使能片内参考电压
+ 151   1              DAC0CN |= 0x80;                 //使能DAC0
+ 152   1              DAC0H=0;        DAC0L=0;
+ 153   1      
+ 154   1              IT0=1;
+ 155   1              IE |= 0x01;     //使能INT0中断
+ 156   1              EA=1;                   //开中断
+ 157   1      
+ 158   1              Test7279(0);
+ 159   1              DAC0=iDAC0;
+ 160   1              for(;;)
+ 161   1               {
+ 162   2                TestMotor();
+ 163   2                kp= GetKeyValue();
+ 164   2                if (kp == 0)
+ 165   2                   SetSpeed = SetSpeed - 2;
+ 166   2                if ((kp == 1) & (SetSpeed<=38))
+ 167   2                   SetSpeed = SetSpeed + 2;
+ 168   2               }
+ 169   1                   
+ 170   1      }
+ 171          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    463    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     13    ----
+C51 COMPILER V6.23a  MAIN                                                                  10/23/2009 00:39:17 PAGE 4   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
