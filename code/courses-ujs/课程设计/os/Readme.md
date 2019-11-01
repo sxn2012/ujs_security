@@ -147,18 +147,6 @@ V(mutex_Machine);
 }
 
 
-(2)The process of Algorithm
-¢ÙThe whole process of customer
- 
-
-
-
-
-
-
-
-¢ÚThe process of choosing methods
- 
 4.The respective functions of operations
 4.1.Enter the critical section 
 s.Lock();
@@ -173,17 +161,7 @@ WaitForSingleObject(s,INFINITE);
 4.6.V-Operation 
 ReleaseSemaphore(s,1,NULL);
 Note: Above Functions can only be used in Windows.
-5. The result of the practice and the analysis of result
-5.1.the result of the pratice
-£¨1£©initial result
- 
-£¨2£©random time result
-¢Ù
- 
-¢Ú
- 
-
-5.2.Analysis of the result
+5. Analysis of the result
 Firstly, Customer 1 entered the lobby and chose manual service window to purchase tickets. The choice is manual window 1 as there is no customer in front of every manual window. After a few minutes, customer 1 finished purchasing and exited the lobby.
 Then, Customer 2 entered the lobby and chose manual service window to purchase tickets. The choice is manual window 1 as there is no customer in front of every manual window.
 Additionally, Customer 3 entered the lobby and chose machine service to purchase tickets. The choice is machine 1 as there is no customer in front of every machine.
